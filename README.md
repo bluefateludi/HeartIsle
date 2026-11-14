@@ -65,7 +65,7 @@ Markdown 内的本地图片链接也需要部署子路径，例如 ![图片描�
 
 ## 替换首页插画
 
-将图片保存为 public/images/flower-field.webp，也支持同名 png、jpg、jpeg。多种格式同时存在时依次优先 WebP、PNG、JPG、JPEG。重新构建即可显示，自动适配部署子路径。当前无图片附件，页面显示明确的插画占位。
+将图片保存为 public/images/flower-field.webp，也支持同名 png、jpg、jpeg。多种格式同时存在时依次优先 WebP、PNG、JPG、JPEG。重新构建即可显示，自动适配部署子路径。当前使用提供的花海插画 public/images/flower-field.jpg。
 
 ## 首次部署 GitHub Pages
 
@@ -93,5 +93,5 @@ astro.config.mjs 在 Actions 中从 GITHUB_REPOSITORY 推导 owner 和仓库名�
 ## 当前内容状态
 
 - 第一篇文章等待提供正式标题和正文。
-- 首页原始花海插画等待上传。
+- 首页已接入提供的花海插画。
 - 已连接公开仓库 bluefateludi/HeartIsle，并启用 GitHub Actions 作为 Pages 发布源。推送 main 自动部署到 https://bluefateludi.github.io/HeartIsle/。

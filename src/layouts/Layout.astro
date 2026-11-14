@@ -1,0 +1,39 @@
+---
+import '../styles/global.css';
+import { repositoryUrl, withBase } from '../lib/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = '心屿 Heart Isle · 给情绪一个停靠的地方。',
+  description = '精选心理学文章、真实故事与人生思考，在阅读中理解情绪，认识自己，重新感受生活。',
+} = Astro.props;
+---
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f8f6ee" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到正文</a>
+    <header class="site-header shell">
+      <a class="brand" href={withBase()} aria-label="心屿首页">
+        <span class="brand-mark" aria-hidden="true">屿</span>
+        <span>心屿 <span class="brand-en" lang="en">HEART ISLE</span></span>
+      </a>
+      <a class="header-link" href={withBase('#featured')}>读一篇文章 <span aria-hidden="true">↗</span></a>
+    </header>
+    <slot />
+    <footer class="site-footer shell">
+      <a class="footer-name" href={withBase()}>心屿 <span lang="en">Heart Isle</span></a>
+      <p>给情绪一个停靠的地方。</p>
+      <a href={repositoryUrl} target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+    </footer>
+  </body>
+</html>

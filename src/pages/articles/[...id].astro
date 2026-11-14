@@ -1,0 +1,34 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { formatDate, withBase } from '../../lib/site';
+
+export async function getStaticPaths() {
+  return (await getCollection('articles')).map((article) => ({
+    params: { id: article.id },
+    props: { article },
+  }));
+}
+interface Props {
+  article: CollectionEntry<'articles'>;
+}
+const { article } = Astro.props;
+const { Content } = await render(article);
+---
+<Layout title={`${article.data.title} · 心屿`} description={article.data.summary}>
+  <main id="main" class="reading-shell">
+    <a class="back-link" href={withBase('#featured')}>← 返回首页</a>
+    <article>
+      <header class="article-header">
+        <p class="eyebrow">{article.data.placeholder ? '内容待提供' : '心屿 · 精选阅读'}</p>
+        <h1>{article.data.title}</h1>
+        {!article.data.placeholder && <time datetime={article.data.date.toISOString()}>{formatDate(article.data.date)}</time>}
+        <p class="article-summary">{article.data.summary}</p>
+        <div class="tags">{article.data.tags.map((tag) => <span>{tag}</span>)}</div>
+      </header>
+      <div class="prose"><Content /></div>
+      <div class="reading-end"><span aria-hidden="true">✳</span><a href={withBase()}>回到心屿</a></div>
+    </article>
+  </main>
+</Layout>

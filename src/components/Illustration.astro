@@ -1,0 +1,32 @@
+---
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { withBase } from '../lib/site';
+
+const filename = ['webp', 'png', 'jpg', 'jpeg']
+  .map((extension) => `flower-field.${extension}`)
+  .find((name) => existsSync(resolve('public/images', name)));
+---
+<figure class="illustration">
+  {filename ? (
+    <img
+      src={withBase(`images/${filename}`)}
+      alt="温暖的花海插画"
+      width="1440"
+      height="720"
+      fetchpriority="high"
+    />
+  ) : (
+    <div class="illustration-placeholder" role="img" aria-label="首页花海插画占位，等待上传图片">
+      <div class="placeholder-sun" aria-hidden="true"></div>
+      <div class="placeholder-flowers" aria-hidden="true">
+        {Array.from({ length: 11 }, (_, index) => <span style={`--i: ${index}`}><i /></span>)}
+      </div>
+      <div class="placeholder-label">
+        <span>留一片花海，给此刻的你</span>
+        <small>花海插画待上传</small>
+      </div>
+    </div>
+  )}
+  <figcaption>在这里，慢慢读，也慢慢感受。</figcaption>
+</figure>

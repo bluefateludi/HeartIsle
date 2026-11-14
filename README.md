@@ -94,4 +94,4 @@ astro.config.mjs 在 Actions 中从 GITHUB_REPOSITORY 推导 owner 和仓库名�
 
 - 第一篇文章等待提供正式标题和正文。
 - 首页原始花海插画等待上传。
-- 首次上线需要建库、有效的 GitHub 登录以及启用 Pages。
+- 已连接公开仓库 bluefateludi/HeartIsle，并启用 GitHub Actions 作为 Pages 发布源。推送 main 自动部署到 https://bluefateludi.github.io/HeartIsle/。

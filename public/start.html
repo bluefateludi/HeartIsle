@@ -29,12 +29,6 @@
       textarea {
         font: inherit;
       }
-      button,
-      a,
-      input,
-      textarea {
-        -webkit-tap-highlight-color: transparent;
-      }
       button {
         cursor: pointer;
       }
@@ -42,22 +36,22 @@
         color: inherit;
         text-decoration: none;
       }
-      button:focus-visible,
-      a:focus-visible,
-      input:focus-visible,
-      textarea:focus-visible {
-        outline: 2px solid var(--green);
-        outline-offset: 5px;
-      }
       [hidden] {
         display: none !important;
       }
-      button:disabled {
-        cursor: default;
-        opacity: 0.5;
-      }
       ::selection {
         background: #dce2cb;
+      }
+      button:focus-visible,
+      a:focus-visible,
+      input:focus-visible,
+      textarea:focus-visible,
+      summary:focus-visible {
+        outline: 2px solid var(--green);
+        outline-offset: 4px;
+      }
+      button:disabled {
+        cursor: default;
       }
       .shell {
         width: min(1080px, calc(100% - 80px));
@@ -98,14 +92,13 @@
       }
       main {
         display: grid;
-        grid-template-columns: 0.8fr 1.2fr;
-        gap: 76px;
-        padding: 70px 0 80px;
-        min-height: calc(100vh - 175px);
+        grid-template-columns: 0.7fr 1.3fr;
+        gap: 60px;
+        padding: 60px 0 48px;
+        min-height: calc(100vh - 240px);
       }
       .intro {
-        padding-top: 35px;
-        position: relative;
+        padding-top: 28px;
       }
       .eyebrow {
         font:
@@ -116,19 +109,18 @@
         margin: 0 0 25px;
       }
       h1 {
-        font: 500 clamp(34px, 4vw, 48px)/1.65 var(--serif);
-        letter-spacing: 4px;
+        font: 500 clamp(34px, 4vw, 46px)/1.65 var(--serif);
+        letter-spacing: 3px;
         margin: 0 0 22px;
       }
       .intro p {
         font-size: 14px;
-        line-height: 2.1;
+        line-height: 2;
         color: var(--muted);
       }
       .intro .small-note {
         font-size: 11px;
         line-height: 1.9;
-        max-width: 265px;
         margin-top: 22px;
       }
       .landscape {
@@ -146,68 +138,57 @@
         margin-top: 13px;
       }
       .workspace {
+        min-width: 0;
         align-self: start;
         background: #fffdf8;
         border: 1px solid var(--line);
         border-radius: 14px;
         box-shadow: 0 16px 50px #343f3505;
-        overflow: hidden;
-      }
-      .steps {
-        display: flex;
-        gap: 9px;
-        align-items: center;
-        padding: 23px 30px;
-        border-bottom: 1px solid #eae9df;
-        font-size: 11px;
-        color: #8a8e82;
-      }
-      .steps span[aria-current="step"] {
-        color: var(--green);
-        font-weight: bold;
-      }
-      .steps i {
-        height: 1px;
-        background: var(--line);
-        flex: 1;
       }
       .panel {
         padding: 30px;
-        animation: arrive 0.35s ease;
       }
       h2 {
         font: 500 25px/1.6 var(--serif);
         margin: 0 0 10px;
         letter-spacing: 1px;
       }
-      .description {
+      h3 {
+        font: 500 21px/1.6 var(--serif);
+        margin: 0 0 14px;
+      }
+      .description,
+      .goal {
         font-size: 13px;
         line-height: 1.9;
         color: var(--muted);
-        margin: 0 0 23px;
+        margin: 0 0 20px;
+        overflow-wrap: anywhere;
       }
       label {
         display: block;
         font-size: 12px;
+        line-height: 1.8;
         margin-bottom: 10px;
       }
       textarea,
       input[type="text"] {
         width: 100%;
         border: 1px solid var(--line);
-        border-radius: 8px;
-        padding: 15px;
+        border-radius: 7px;
+        padding: 14px;
         background: #fcfbf6;
         color: var(--ink);
         line-height: 1.9;
       }
       textarea {
+        min-height: 140px;
         resize: vertical;
-        min-height: 160px;
         font-size: 14px;
       }
-      textarea::placeholder {
-        color: #92958a;
+      textarea::placeholder,
+      input::placeholder {
+        color: #8b9084;
       }
       .input-meta {
         display: flex;
@@ -216,11 +197,15 @@
         color: var(--muted);
         margin: 9px 0 21px;
       }
-      .examples {
+      .examples,
+      .actions {
         display: flex;
-        gap: 8px;
+        gap: 10px;
+        align-items: center;
         flex-wrap: wrap;
-        margin: 12px 0 28px;
+      }
+      .examples {
+        margin: 12px 0 26px;
       }
       .chip,
       .secondary {
@@ -228,7 +213,7 @@
         border-radius: 6px;
         background: transparent;
         color: var(--green);
-        padding: 10px 12px;
+        padding: 10px 14px;
         font-size: 12px;
       }
       .chip:hover,
@@ -240,18 +225,18 @@
         color: #fffdf8;
         border: 1px solid var(--green);
         border-radius: 7px;
-        padding: 14px 20px;
+        padding: 13px 18px;
         font-size: 13px;
         letter-spacing: 1px;
       }
       .wide {
         width: 100%;
       }
-      .primary:hover {
-        background: #40533b;
-      }
       .primary span {
         float: right;
+      }
+      .primary:hover {
+        background: #40533b;
       }
       .quiet {
         border: 0;
@@ -262,16 +247,21 @@
         text-decoration: underline;
         text-underline-offset: 4px;
       }
-      .footnote {
-        font-size: 10px;
-        line-height: 1.8;
-        color: var(--muted);
-        margin: 17px 0 0;
+      .extras {
+        margin: 0 0 23px;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 15px;
+      }
+      summary {
+        cursor: pointer;
+        color: var(--green);
+        font-size: 12px;
+        padding: 8px 0;
       }
       .choices {
         display: grid;
         gap: 9px;
-        margin: 16px 0 26px;
+        margin: 16px 0;
       }
       .choice {
         text-align: left;
@@ -280,167 +270,219 @@
         background: #fffdf8;
         padding: 15px;
         color: var(--ink);
-      }
-      .choice strong {
-        font-weight: 500;
-        font-size: 14px;
-        display: block;
-        margin-bottom: 5px;
-      }
-      .choice small {
-        color: var(--muted);
-        font-size: 11px;
+        font-size: 13px;
       }
       .choice[aria-pressed="true"] {
         background: #edf1e6;
         border-color: #748865;
         box-shadow: inset 3px 0 #748865;
       }
-      .actions {
+      .list-heading {
         display: flex;
-        gap: 12px;
-        align-items: center;
-        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 15px;
       }
-      .goal {
-        font-size: 12px;
+      #progress {
         color: var(--muted);
-        line-height: 1.9;
-        margin: 0 0 20px;
-        overflow-wrap: anywhere;
+        font-size: 11px;
+        white-space: nowrap;
       }
-      .action-card {
+      .invitation {
+        font-size: 12px;
+        color: var(--green);
+        padding: 13px 15px;
         background: #f0f2e8;
-        border: 1px solid #e0e6d5;
-        border-radius: 10px;
-        padding: 24px;
-        margin: 0 0 20px;
+        border-radius: 6px;
+        margin: 0 0 23px;
       }
-      .action-card h3 {
-        font: 500 23px/1.7 var(--serif);
-        margin: 8px 0 12px;
-        overflow-wrap: anywhere;
-      }
-      .action-card p {
-        font-size: 13px;
-        color: #67725d;
-        line-height: 1.9;
+      .task-list,
+      .task-children {
+        list-style: none;
+        padding: 0;
         margin: 0;
       }
-      .step-label {
-        font-size: 10px;
-        letter-spacing: 1px;
-        color: var(--green);
+      .task-item {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        margin-bottom: 10px;
+        background: #fffdf8;
       }
-      .duration {
+      .task-row {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        padding: 13px;
+      }
+      .task-row input[type="checkbox"] {
+        flex: 0 0 auto;
+        width: 19px;
+        height: 19px;
+        margin: 4px 0 0;
+        accent-color: var(--green);
+        cursor: pointer;
+      }
+      .task-row input:disabled {
+        cursor: default;
+      }
+      .task-select {
+        min-width: 0;
+        flex: 1;
+        text-align: left;
+        font-size: 14px;
+        line-height: 1.9;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: var(--ink);
+        overflow-wrap: anywhere;
+      }
+      .stuck-button {
+        flex: 0 0 auto;
+        align-self: center;
+        background: transparent;
+        border: 0;
+        color: var(--green);
+        font-size: 11px;
+        padding: 5px 0;
+      }
+      .task-item.selected {
+        border-color: #708460;
+        background: #f0f3e9;
+        box-shadow: inset 3px 0 #708460;
+      }
+      .task-item.complete > .task-row .task-select {
+        color: var(--muted);
+        text-decoration: line-through;
+      }
+      .task-children {
+        margin: 0 10px 10px 18px;
+        padding-left: 10px;
+        border-left: 1px solid #cbd4c0;
+      }
+      .step-editor {
+        padding: 2px 17px 18px 42px;
+      }
+      .editing-label {
+        font-size: 11px;
+        color: var(--green);
+        line-height: 1.8;
+        overflow-wrap: anywhere;
+        margin: 0 0 14px;
+      }
+      .step-editor .description {
+        margin-bottom: 12px;
+        font-size: 12px;
+      }
+      .step-editor textarea {
+        background: #fffdf8;
+      }
+      .draft-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .draft-row {
         display: flex;
         align-items: center;
         gap: 8px;
-        margin-bottom: 22px;
-        font-size: 11px;
+        margin-bottom: 10px;
+      }
+      .draft-number {
+        flex: 0 0 18px;
         color: var(--muted);
-      }
-      .duration button {
-        border: 1px solid var(--line);
-        border-radius: 5px;
-        background: transparent;
-        padding: 7px 12px;
-        color: var(--green);
         font-size: 12px;
-      }
-      .duration button[aria-pressed="true"] {
-        background: #e7ecdd;
-        border-color: #a0ad91;
-      }
-      .timer {
         text-align: center;
-        padding: 16px 0 26px;
       }
-      .clock {
-        font:
-          400 66px/1.5 Georgia,
-          serif;
-        font-variant-numeric: tabular-nums;
-        color: var(--green);
-        letter-spacing: 3px;
+      .draft-row input[type="text"] {
+        min-width: 0;
+        flex: 1;
+        background: #fffdf8;
+        padding: 10px;
+        font-size: 13px;
       }
-      .timer p {
-        font-size: 12px;
+      .remove-task {
+        border: 0;
+        background: transparent;
         color: var(--muted);
-        line-height: 1.8;
+        padding: 10px 2px;
+        font-size: 11px;
+        flex-shrink: 0;
       }
-      .timer .actions {
-        justify-content: center;
+      .remove-task:hover {
+        color: #9a503c;
+      }
+      .add-task {
+        border: 1px dashed #a8b498;
+        border-radius: 6px;
+        padding: 11px;
+        width: 100%;
+        background: transparent;
+        color: var(--green);
+        font-size: 12px;
+      }
+      .add-task:hover {
+        background: #e7eddc;
+      }
+      .step-editor .actions {
+        margin-top: 14px;
+      }
+      .help-response {
+        font-size: 12px;
+        line-height: 1.9;
+        margin-bottom: 0;
       }
       .status {
-        min-height: 19px;
+        min-height: 18px;
         font-size: 12px;
         color: var(--green);
         line-height: 1.8;
-        margin: 14px 0 0;
+        margin: 12px 0 0;
       }
       .error {
         color: #9a503c;
       }
-      .resume {
-        background: #edf1e6;
-        border: 1px solid #d9e0cc;
-        padding: 16px;
-        border-radius: 8px;
-        margin-bottom: 23px;
-      }
-      .resume p {
-        font-size: 12px;
-        line-height: 1.9;
-        margin: 0 0 8px;
-        overflow-wrap: anywhere;
-      }
       .finished {
-        text-align: center;
+        font: 18px/1.8 var(--serif);
+        color: var(--green);
         padding: 20px 0;
       }
-      .seal {
-        display: grid;
-        place-items: center;
-        width: 62px;
-        height: 62px;
-        border: 1px solid #a8b498;
-        border-radius: 50%;
-        margin: 0 auto 20px;
-        color: var(--green);
-        font-size: 25px;
+      .resume-button {
+        margin-bottom: 22px;
       }
-      .completed {
-        padding: 0;
-        list-style: none;
-        margin: 20px 0;
-        text-align: left;
+      #clarify-form .actions {
+        margin-top: 15px;
       }
-      .completed li {
-        font-size: 13px;
-        line-height: 1.9;
-        padding: 10px 0;
-        border-bottom: 1px solid var(--line);
-        overflow-wrap: anywhere;
+      .save-bar {
+        position: sticky;
+        bottom: 12px;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        padding: 13px 20px;
+        background: #fffdf8f5;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        box-shadow: 0 5px 25px #343f3510;
       }
-      .completed li::before {
-        content: "✓";
-        margin-right: 10px;
-        color: var(--green);
+      #save-status {
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+      .save-bar .secondary {
+        min-width: 90px;
       }
       footer {
         border-top: 1px solid var(--line);
         padding: 23px 0;
+        margin-top: 25px !important;
         display: flex;
         justify-content: space-between;
         color: var(--muted);
         font-size: 11px;
-      }
-      .edit {
-        margin: 14px 0;
-      }
-      .edit input {
-        margin-bottom: 12px;
       }
       .skip {
         position: absolute;
@@ -451,29 +493,19 @@
         top: 10px;
         background: var(--paper);
         padding: 10px;
-        z-index: 1;
-      }
-      @keyframes arrive {
-        from {
-          opacity: 0;
-          transform: translateY(7px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+        z-index: 3;
       }
       @media (max-width: 760px) {
         .shell {
-          width: calc(100% - 40px);
+          width: calc(100% - 32px);
         }
         header {
           height: 82px;
         }
         main {
           grid-template-columns: 1fr;
-          gap: 27px;
-          padding: 35px 0 45px;
+          gap: 25px;
+          padding: 30px 0;
         }
         .intro {
           padding: 0;
@@ -482,7 +514,7 @@
           margin-bottom: 14px;
         }
         h1 {
-          font-size: 33px;
+          font-size: 32px;
           line-height: 1.5;
           margin-bottom: 12px;
         }
@@ -499,70 +531,40 @@
           display: none;
         }
         .panel {
-          padding: 24px;
+          padding: 20px;
         }
-        .steps {
-          padding: 20px 24px;
+        h2 {
+          font-size: 23px;
+        }
+        .list-heading {
+          flex-wrap: wrap;
+          gap: 0;
+        }
+        #progress {
+          margin-bottom: 12px;
+        }
+        .task-row {
+          padding: 12px 10px;
+          gap: 8px;
+        }
+        .task-select {
+          font-size: 13px;
+        }
+        .step-editor {
+          padding: 0 12px 16px;
+        }
+        .task-children {
+          margin-left: 10px;
+          padding-left: 6px;
         }
         footer {
           gap: 15px;
           line-height: 1.8;
         }
-        .action-card {
-          padding: 20px;
+        .save-bar {
+          bottom: 8px;
+          padding: 10px 14px;
         }
-        .clock {
-          font-size: 58px;
-        }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        * {
-          animation: none !important;
-        }
-      }
-      .extras {
-        margin: 0 0 23px;
-        border-bottom: 1px solid var(--line);
-        padding-bottom: 15px;
-      }
-      summary {
-        cursor: pointer;
-        color: var(--green);
-        font-size: 12px;
-        padding: 8px 0;
-      }
-      summary:focus-visible {
-        outline: 2px solid var(--green);
-        outline-offset: 4px;
-      }
-      .plan-list {
-        padding-left: 22px;
-        font-size: 12px;
-        line-height: 1.9;
-      }
-      .plan-list li {
-        margin-bottom: 12px;
-        overflow-wrap: anywhere;
-      }
-      .plan-list button {
-        margin-left: 10px;
-      }
-      #stuck-help textarea {
-        min-height: 85px;
-      }
-      #outcome-form {
-        margin-top: 18px;
-      }
-      #outcome-form button {
-        margin-top: 12px;
-      }
-      #outcome-form input {
-        background: #fffdf8;
-      }
-      #step-label {
-        display: block;
-        overflow-wrap: anywhere;
-        line-height: 1.9;
       }
     </style>
   </head>
@@ -586,23 +588,14 @@
         </p>
       </aside>
       <section class="workspace" aria-label="陪我开始">
-        <nav class="steps" aria-label="当前进度">
-          <span data-stage="input" aria-current="step">说说这件事</span><i></i
-          ><span data-stage="action">开始一小步</span>
-        </nav>
         <section class="panel" id="input-panel" aria-labelledby="input-title">
           <h2 id="input-title" tabindex="-1">今天，想从什么开始？</h2>
           <p class="description">
             要做的大事、挂在心里的小事，都可以写在这里。
           </p>
-          <div class="resume" id="resume" hidden>
-            <p id="resume-text"></p>
-            <div class="actions">
-              <button class="secondary" id="resume-button">
-                接着上次的小步</button
-              ><button class="quiet" id="discard">清除上次进度</button>
-            </div>
-          </div>
+          <button class="secondary resume-button" id="resume" hidden>
+            回到暂存的清单 →
+          </button>
           <form id="task-form">
             <details class="extras">
               <summary>说说现在的状态 · 可选</summary>
@@ -677,114 +670,54 @@
             </button>
             <p class="status error" id="input-error" role="status"></p>
           </form>
-          <p class="footnote" id="input-storage">
-            进度保存在当前浏览器，回来可以接着做。
-          </p>
         </section>
         <section
           class="panel"
-          id="action-panel"
-          aria-labelledby="action-title"
+          id="tasks-panel"
+          aria-labelledby="tasks-title"
           hidden
         >
-          <h2 id="action-title" tabindex="-1">先做眼前这一小步。</h2>
+          <div class="list-heading">
+            <h2 id="tasks-title" tabindex="-1">从一件小事开始。</h2>
+            <span id="progress"></span>
+          </div>
           <p class="goal" id="goal-summary"></p>
-          <div class="action-card">
-            <span class="step-label" id="step-label"></span>
-            <h3 id="step-title"></h3>
-            <p id="step-detail"></p>
-            <form id="outcome-form" hidden>
-              <label for="outcome">写下一件此刻想到的事</label
-              ><input
-                id="outcome"
-                type="text"
-                maxlength="160"
-                placeholder="比如，回复那封还没回的邮件"
-              /><button class="secondary" type="submit">就从这件事开始</button>
-              <p class="status" id="outcome-error" role="status"></p>
-            </form>
-          </div>
-          <div class="timer" id="timer-panel" hidden>
-            <div
-              class="clock"
-              id="clock"
-              role="timer"
-              aria-label="已经投入的时间"
-            >
-              00:00
-            </div>
-            <p>已经为这件事留了一点时间，随时可以停下。</p>
-          </div>
-          <div class="actions">
-            <button class="primary" id="start">开始这一小步 ↗</button
-            ><button class="primary" id="done" hidden>这步做好了</button
-            ><button class="secondary" id="stuck">我卡住了</button>
-          </div>
-          <p
-            class="status"
-            id="action-status"
-            role="status"
-            aria-live="polite"
-          ></p>
-          <div id="stuck-help" hidden>
-            <label for="difficulty">也可以补一句，具体卡在哪里</label
-            ><textarea
-              id="difficulty"
-              maxlength="500"
-              placeholder="比如，找不到文件；不知道第一句怎么写……"
-            ></textarea
-            ><button class="quiet" id="apply-difficulty">
-              按这个困难再拆一下
-            </button>
-          </div>
-          <details class="extras" id="extras">
-            <summary>调整步骤 / 看看完整拆解</summary>
+          <p class="invitation">先试着做五分钟，做多少都可以。</p>
+          <form id="clarify-form" hidden>
+            <label for="clarification">此刻最挂心的一件事是什么？</label>
+            <input
+              id="clarification"
+              type="text"
+              maxlength="1000"
+              placeholder="比如，回复昨天的邮件"
+            />
             <div class="actions">
-              <button class="quiet" id="edit">自己改这一步</button
-              ><button class="quiet" id="skip-step">这步已经做过了</button
-              ><button class="quiet" id="pause" hidden>暂停计时</button>
+              <button class="secondary" type="button" data-save>暂存</button
+              ><button class="primary" type="submit">就从这件事开始</button>
             </div>
-            <form class="edit" id="edit-form" hidden>
-              <label for="custom-step">换成一个你愿意做的动作</label
-              ><input id="custom-step" type="text" maxlength="160" required />
-              <div class="actions">
-                <button class="secondary" type="submit">用这一步</button
-                ><button class="quiet" id="cancel-edit" type="button">
-                  取消
-                </button>
-              </div>
-            </form>
-            <ol class="plan-list" id="plan-list"></ol>
-            <ul class="completed" id="completed-list"></ul>
-          </details>
-          <button class="quiet" id="save-exit">今天先到这里</button>
-          <p class="footnote" id="storage-note"></p>
-        </section>
-        <section
-          class="panel"
-          id="finish-panel"
-          aria-labelledby="finish-title"
-          hidden
-        >
-          <div class="finished">
-            <div class="seal" aria-hidden="true">✓</div>
-            <h2 id="finish-title" tabindex="-1">这一轮，已经往前走了一点。</h2>
-            <p class="description">做过的每一个小步，都记在这里。</p>
-            <ul class="completed" id="finish-list"></ul>
-            <button class="primary" id="new-task">开始另一件事</button>
-            <p class="footnote" id="finish-storage"></p>
-          </div>
+            <p class="status error" id="clarify-error" role="status"></p>
+          </form>
+          <div id="task-tree"></div>
+          <p id="all-done" class="finished" hidden>
+            这一轮完成了。每一小步，都算数。
+          </p>
+          <p id="task-status" class="status" role="status"></p>
+          <button class="quiet" id="back-input">回到输入</button>
         </section>
         <noscript
           ><p class="panel">
-            请启用 JavaScript 来使用任务拆解、计时和进度保存功能。
+            请启用 JavaScript 来使用任务拆解和进度保存功能。
           </p></noscript
         >
       </section>
     </main>
+    <div class="save-bar shell" aria-label="暂存操作">
+      <span id="save-status" role="status">随时暂存，回来接着做。</span
+      ><button class="secondary" data-save type="button">暂存</button>
+    </div>
     <footer class="shell">
       <span>心屿 · 陪我开始</span><span>给每一个小小的开始，留一点空间。</span>
     </footer>
-    <script src="./start.js" defer></script>
+    <script src="./start.js" type="module"></script>
   </body>
 </html>

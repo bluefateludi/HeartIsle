@@ -27,7 +27,10 @@ const {
         <span class="brand-mark" aria-hidden="true">屿</span>
         <span>心屿 <span class="brand-en" lang="en">HEART ISLE</span></span>
       </a>
-      <a class="header-link" href={withBase('#featured')}>读一篇文章 <span aria-hidden="true">↗</span></a>
+      <nav class="site-nav" aria-label="主导航">
+        <a class="header-link" href={withBase('#featured')}>文章</a>
+        <a class="header-link" href={withBase('start.html')}>任务工具 <span aria-hidden="true">↗</span></a>
+      </nav>
     </header>
     <slot />
     <footer class="site-footer shell">

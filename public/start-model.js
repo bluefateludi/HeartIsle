@@ -55,6 +55,7 @@ export function initialState() {
     drafts: {},
     clarification: "",
     needsClarification: false,
+    lastDeleted: null,
   };
 }
 
@@ -111,6 +112,73 @@ export function flatten(nodes) {
 }
 export function findNode(state, id) {
   return flatten(state.nodes).find((item) => item.id === id);
+}
+function findPosition(nodes, id, parentId = null) {
+  for (let index = 0; index < nodes.length; index++) {
+    if (nodes[index].id === id) return { siblings: nodes, index, parentId };
+    const found = findPosition(nodes[index].children, id, nodes[index].id);
+    if (found) return found;
+  }
+  return null;
+}
+
+export function deleteTask(state, id) {
+  const position = findPosition(state.nodes, id);
+  if (!position) return false;
+  const removed = position.siblings[position.index];
+  const removedIds = new Set(flatten([removed]).map((item) => item.id));
+  const snapshot = initialState();
+  snapshot.nodes = [structuredClone(removed)];
+  snapshot.drafts = Object.fromEntries(
+    Object.entries(state.drafts).filter(([key]) => removedIds.has(key)),
+  );
+  snapshot.selectedId = removedIds.has(state.selectedId)
+    ? state.selectedId
+    : removed.id;
+  state.lastDeleted = {
+    kind: "task",
+    snapshot: structuredClone(snapshot),
+    parentId: position.parentId,
+    index: position.index,
+  };
+  position.siblings.splice(position.index, 1);
+  for (const key of removedIds) delete state.drafts[key];
+  if (removedIds.has(state.selectedId)) state.selectedId = position.parentId;
+  return true;
+}
+
+export function deleteChecklist(state) {
+  const snapshot = structuredClone({ ...state, lastDeleted: null });
+  state.lastDeleted = { kind: "list", snapshot, parentId: null, index: 0 };
+  state.nodes = [];
+  state.drafts = {};
+  state.selectedId = null;
+  state.goal = "";
+  state.needsClarification = false;
+  state.clarification = "";
+}
+
+export function undoDelete(state) {
+  const deleted = state.lastDeleted;
+  if (!deleted) return false;
+  const snapshot = structuredClone(deleted.snapshot);
+  if (deleted.kind === "list") {
+    state.nodes = snapshot.nodes;
+    state.drafts = snapshot.drafts;
+    state.goal = snapshot.goal;
+    state.clarification = snapshot.clarification;
+    state.needsClarification = snapshot.needsClarification;
+  } else {
+    const parent = deleted.parentId ? findNode(state, deleted.parentId) : null;
+    if (deleted.parentId && !parent) return false;
+    const siblings = parent ? parent.children : state.nodes;
+    siblings.splice(deleted.index, 0, snapshot.nodes[0]);
+    Object.assign(state.drafts, snapshot.drafts);
+  }
+  state.selectedId = snapshot.selectedId;
+  state.screen = "tasks";
+  state.lastDeleted = null;
+  return true;
 }
 export function isComplete(item) {
   return item.children.length ? item.children.every(isComplete) : item.done;
@@ -191,6 +259,20 @@ function validState(value) {
     Array.isArray(value.drafts)
   )
     return false;
+  if (value.lastDeleted != null) {
+    const deleted = value.lastDeleted;
+    if (
+      !["task", "list"].includes(deleted.kind) ||
+      !(deleted.parentId === null || typeof deleted.parentId === "string") ||
+      !Number.isInteger(deleted.index) ||
+      deleted.index < 0 ||
+      !deleted.snapshot ||
+      deleted.snapshot.lastDeleted != null ||
+      !validState(deleted.snapshot) ||
+      (deleted.kind === "task" && deleted.snapshot.nodes.length !== 1)
+    )
+      return false;
+  }
   const ids = new Set();
   function validNodes(items, depth) {
     if (depth > 30) return false;
@@ -245,7 +327,11 @@ export function restoreState(value) {
       }
     }
   }
-  if (validState(value)) return structuredClone(value);
+  if (validState(value))
+    return {
+      ...structuredClone(value),
+      lastDeleted: value.lastDeleted ?? null,
+    };
   if (
     ![1, 2].includes(value?.version) ||
     typeof value.goal !== "string" ||

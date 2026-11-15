@@ -9,6 +9,9 @@ import {
   openDraft,
   applySplit,
   restoreState,
+  deleteTask,
+  deleteChecklist,
+  undoDelete,
 } from "../public/start-model.js";
 
 function writingState() {
@@ -203,4 +206,77 @@ test("added, deleted and blank rows survive saving and only valid rows can be ap
     restored.nodes[0].children.map((item) => item.title),
     [...draft.items.slice(0, 2), "记录暂定的研究范围"],
   );
+});
+
+test("deleting a task group removes its children and drafts, and undo survives reload", () => {
+  const state = writingState();
+  const parent = state.nodes[0];
+  openDraft(state, parent.id);
+  applySplit(state, parent.id);
+  openDraft(state, parent.children[0].id);
+  state.drafts[parent.children[0].id].difficulty = "还有一点没想清楚";
+  const original = structuredClone(state.nodes);
+  const drafts = structuredClone(state.drafts);
+  assert.equal(deleteTask(state, parent.id), true);
+  assert.equal(
+    flatten(state.nodes).some((item) => item.id === parent.id),
+    false,
+  );
+  assert.deepEqual(state.drafts, {});
+  const restored = restoreState(JSON.parse(JSON.stringify(state)));
+  assert.ok(restored);
+  assert.equal(undoDelete(restored), true);
+  assert.deepEqual(restored.nodes, original);
+  assert.deepEqual(restored.drafts, drafts);
+  assert.equal(restored.lastDeleted, null);
+});
+
+test("undoing a child deletion preserves subsequent edits to its siblings", () => {
+  const state = writingState();
+  const parent = state.nodes[0];
+  openDraft(state, parent.id);
+  applySplit(state, parent.id);
+  const removed = parent.children[1];
+  deleteTask(state, removed.id);
+  parent.children[0].done = true;
+  assert.equal(undoDelete(state), true);
+  assert.equal(parent.children[1].id, removed.id);
+  assert.equal(parent.children[0].done, true);
+});
+
+test("deleting and restoring a whole checklist preserves completed work and unfinished drafts", () => {
+  const state = writingState();
+  state.goal = "准备论文";
+  state.nodes[0].done = true;
+  openDraft(state, state.nodes[1].id);
+  const original = structuredClone(state);
+  deleteChecklist(state);
+  assert.deepEqual(state.nodes, []);
+  assert.deepEqual(state.drafts, {});
+  assert.equal(state.goal, "");
+  const restored = restoreState(JSON.parse(JSON.stringify(state)));
+  assert.equal(undoDelete(restored), true);
+  assert.deepEqual(restored, original);
+});
+
+test("deleting the last child returns its parent to an actionable task", () => {
+  const state = writingState();
+  const parent = state.nodes[0];
+  openDraft(state, parent.id);
+  applySplit(state, parent.id);
+  while (parent.children.length) deleteTask(state, parent.children[0].id);
+  assert.equal(isComplete(parent), false);
+  assert.equal(undoDelete(state), true);
+  assert.equal(parent.children.length, 1);
+  assert.ok(restoreState(state));
+});
+
+test("invalid delete requests do not discard the last undo record", () => {
+  const state = writingState();
+  deleteTask(state, state.nodes[0].id);
+  const deleted = structuredClone(state.lastDeleted);
+  assert.equal(deleteTask(state, "missing"), false);
+  assert.deepEqual(state.lastDeleted, deleted);
+  state.lastDeleted.snapshot.nodes = [null];
+  assert.equal(restoreState(state), null);
 });

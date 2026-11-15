@@ -8,6 +8,9 @@ import {
   applySplit,
   helpFor,
   restoreState,
+  deleteTask,
+  deleteChecklist,
+  undoDelete,
 } from "./start-model.js";
 
 const $ = (id) => document.getElementById(id);
@@ -119,7 +122,23 @@ function draftList(draft, taskId, onEdit) {
 function renderEditor(item) {
   const editor = element("div", "step-editor");
   editor.id = "editor-" + item.id;
-  editor.append(element("p", "editing-label", "正在处理 · " + item.title));
+  const heading = element("div", "editor-heading");
+  heading.append(element("p", "editing-label", "正在处理 · " + item.title));
+  const remove = button(
+    item.children.length ? "删除任务组" : "删除任务",
+    "quiet danger",
+    () => {
+      deleteTask(state, item.id);
+      save();
+      render();
+      $("undo-delete").focus({ preventScroll: true });
+    },
+  );
+  remove.title = item.children.length
+    ? "删除这一组及其子任务，可撤销"
+    : "删除这项任务，可撤销";
+  heading.append(remove);
+  editor.append(heading);
   if (item.detail) editor.append(element("p", "description", item.detail));
   if (item.children.length || item.done) {
     editor.append(
@@ -285,6 +304,18 @@ function renderTasks() {
   $("clarify-form").hidden = !state.needsClarification;
   $("clarification").value = state.clarification;
   $("task-tree").hidden = state.needsClarification;
+  $("empty-list").hidden = state.nodes.length > 0 || state.needsClarification;
+  $("delete-list").hidden = !state.nodes.length && !state.needsClarification;
+  $("deleted-notice").hidden = !state.lastDeleted;
+  if (state.lastDeleted) {
+    const deleted = state.lastDeleted;
+    const title =
+      deleted.kind === "list"
+        ? deleted.snapshot.goal || "当前清单"
+        : deleted.snapshot.nodes[0].title;
+    $("deleted-message").textContent =
+      "已删除“" + title + "”。可以撤销最近一次删除。";
+  }
 }
 function render() {
   $("input-panel").hidden = state.screen !== "input";
@@ -330,6 +361,7 @@ $("task-form").addEventListener("submit", (event) => {
     return;
   }
   state.goal = goal;
+  state.lastDeleted = null;
   state.nodes = [];
   state.drafts = {};
   state.selectedId = null;
@@ -377,6 +409,18 @@ $("back-input").addEventListener("click", () => {
   state.screen = "input";
   save();
   render();
+});
+$("delete-list").addEventListener("click", () => {
+  deleteChecklist(state);
+  save();
+  render();
+  $("undo-delete").focus({ preventScroll: true });
+});
+$("undo-delete").addEventListener("click", () => {
+  if (!undoDelete(state)) return;
+  save();
+  render();
+  announce("已恢复删除的任务和草稿。");
 });
 window.addEventListener("storage", (event) => {
   if (event.key !== storageKey || !event.newValue) return;

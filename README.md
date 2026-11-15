@@ -41,9 +41,9 @@ src/
 astro.config.mjs              部署域名与子路径
 ```
 
-## 提供第一篇文章
+## 发布文章
 
-目前只有 first-article.md 占位文章。其标题、摘要和正文均明确标为待提供。date 是占位文件的创建日期，正式发表时更新。编辑该文件，填写真实内容并把 placeholder 改为 false。
+第一篇正式文章《我们可能误解了幸福》保存在 first-article.md，发布日期为 2026-11-15。
 
 新增文章时在 src/content/articles/ 放入 Markdown 文件，例如 understanding-emotions.md。
 
@@ -59,7 +59,7 @@ placeholder: false
 在这里填写正文，可使用 Markdown 标题、段落、引用、列表和图片。
 ```
 
-文件名成为文章路径，例如 /HeartIsle/articles/understanding-emotions/。新增文件后无需改页面代码。日期最新的一篇显示在首页。正式首篇发布时请替换或删除占位文件。
+文件名成为文章路径，例如 /HeartIsle/articles/understanding-emotions/。新增文件后无需改页面代码。日期最新的一篇显示在首页。
 
 Markdown 内的本地图片链接也需要部署子路径，例如 ![图片描述](/HeartIsle/images/example.webp)。使用相对文章路径或外部 HTTPS 图片同样可以。仓库改名时同步调整正文中手写的绝对路径。
 
@@ -92,6 +92,6 @@ astro.config.mjs 在 Actions 中从 GITHUB_REPOSITORY 推导 owner 和仓库名�
 
 ## 当前内容状态
 
-- 第一篇文章等待提供正式标题和正文。
+- 第一篇正式文章《我们可能误解了幸福》已接入首页和阅读页。
 - 首页已接入提供的花海插画。
 - 已连接公开仓库 bluefateludi/HeartIsle，并启用 GitHub Actions 作为 Pages 发布源。推送 main 自动部署到 https://bluefateludi.github.io/HeartIsle/。

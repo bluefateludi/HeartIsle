@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f8f6ee" />
+    <title>长期 · 心屿任务工具</title>
+    <link rel="stylesheet" href="./task-tool.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">跳到正文</a>
+    <header class="shell">
+      <a class="brand" href="./"
+        ><span class="mark" aria-hidden="true">屿</span
+        ><span>心屿<small lang="en">HEART ISLE</small></span></a
+      >
+      <nav class="tool-nav" aria-label="主导航">
+        <a href="./#featured">文章</a
+        ><a href="./start.html" aria-current="page">任务工具</a>
+      </nav>
+    </header>
+    <main id="main" class="shell">
+      <aside class="intro">
+        <p class="eyebrow" lang="en">A LITTLE AT A TIME</p>
+        <h1>想做的事，<br />慢慢记着。</h1>
+        <p>把长远的想法留在这里，<br />也留下这次走到的位置。</p>
+        <div class="landscape" role="img" aria-label="阳光下的花海"></div>
+      </aside>
+      <section class="workspace" aria-label="长期任务记录">
+        <nav class="task-tabs" aria-label="任务分类">
+          <a href="./start.html">当前任务</a
+          ><a href="./long-term.html" aria-current="page">长期</a>
+        </nav>
+        <section class="panel">
+          <div class="list-heading">
+            <h2>我想慢慢做到的事</h2>
+            <button class="secondary" id="add-record">＋ 记一件事</button>
+          </div>
+          <p class="description">记下目标、进展，还有下次想做的一小步。</p>
+          <p id="demo-notice" class="record-notice" hidden>
+            示例体验 <a href="./long-term.html">进入我的记录 →</a>
+          </p>
+          <form id="record-form" class="record-editor" hidden>
+            <h3 id="editor-title" tabindex="-1">记一件长期想做的事</h3>
+            <label for="record-title">想做什么</label
+            ><input
+              id="record-title"
+              type="text"
+              maxlength="1000"
+              required
+              placeholder="比如，准备考研、学英语、做一个自己的项目"
+            />
+            <label for="record-note">进展备注 · 可选</label
+            ><textarea
+              id="record-note"
+              maxlength="10000"
+              placeholder="为什么想做、已经做到哪里，都可以记在这里。"
+            ></textarea>
+            <label for="record-next">下一步 · 可选</label
+            ><input
+              id="record-next"
+              type="text"
+              maxlength="1000"
+              placeholder="给下次回来时的自己留个起点"
+            />
+            <div class="actions">
+              <button class="primary" type="submit">保存记录</button
+              ><button class="quiet" type="button" id="close-editor">
+                先收起
+              </button>
+            </div>
+            <p id="form-error" class="status error" role="status"></p>
+          </form>
+          <p
+            class="status"
+            id="record-status"
+            role="status"
+            aria-live="polite"
+          ></p>
+          <div id="records" class="record-list"></div>
+          <div id="empty-records" class="record-empty">
+            <p>还没有长期记录，先记下一件挂在心里的事。</p>
+            <a href="?demo=1">看看示例 ↗</a>
+          </div>
+          <p class="record-storage">记录保存在当前浏览器。</p>
+        </section>
+        <noscript
+          ><p class="panel">请启用 JavaScript 来保存和编辑记录。</p></noscript
+        >
+      </section>
+    </main>
+    <footer class="shell">
+      <span>心屿 · 陪我开始</span><span>给每一个小小的开始，留一点空间。</span>
+    </footer>
+    <script type="module" src="./long-term.js"></script>
+  </body>
+</html>

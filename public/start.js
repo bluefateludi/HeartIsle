@@ -12,6 +12,7 @@ import {
   deleteChecklist,
   undoDelete,
 } from "./start-model.js";
+import { loadRecords } from "./long-term-model.js";
 
 const $ = (id) => document.getElementById(id);
 const storageKey = "heart-isle-small-start-v1";
@@ -20,7 +21,15 @@ let storageError = false;
 try {
   const raw = localStorage.getItem(storageKey);
   if (raw) {
-    const restored = restoreState(JSON.parse(raw));
+    const saved = JSON.parse(raw);
+    let snapshot = saved;
+    if (saved?.version === 4 && Array.isArray(saved.goals)) {
+      loadRecords(localStorage);
+      snapshot =
+        saved.goals.find((goal) => goal.id === saved.activeId)?.session ??
+        saved.draft;
+    }
+    const restored = restoreState(snapshot);
     if (restored) state = restored;
     else storageError = true;
   }

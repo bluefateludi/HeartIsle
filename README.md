@@ -22,7 +22,11 @@ npm run build
 npm run preview
 ```
 
-构建包含 Astro 和 TypeScript 检查，静态产物位于 dist/。依赖锁定在 package-lock.json，CI 使用 npm ci。首页只显示日期最新的一篇文章，全部 Markdown 均自动生成详情页。网站无客户端 JavaScript 依赖。
+构建包含 Astro 和 TypeScript 检查，静态产物位于 dist/。依赖锁定在 package-lock.json，CI 使用 npm ci。首页只显示日期最新的一篇文章，全部 Markdown 均自动生成详情页。阅读页面无需客户端 JavaScript，“陪我开始”使用原生 JavaScript 提供交互。
+
+## v0.2.0 · 陪我开始
+
+从首页进入“陪我开始”，或访问 /HeartIsle/start.html。输入短期任务后，页面给出可以开始的小步骤，支持继续拆解、正向计时和本地进度恢复。建议通过本地关键词规则和预设步骤生成，进度保存在当前浏览器。版本记录见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 目录
 

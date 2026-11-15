@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f8f6ee" />
+    <title>陪我开始 · 心屿</title>
+    <style>
+      :root {
+        --paper: #f8f6ee;
+        --ink: #343f35;
+        --green: #52664c;
+        --muted: #72776b;
+        --line: #dedfd2;
+        --serif: "Songti SC", "STSong", SimSun, serif;
+        --sans: "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: var(--ink);
+        background: var(--paper);
+        font-family: var(--sans);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+      }
+      button,
+      input,
+      textarea {
+        font: inherit;
+      }
+      button,
+      a,
+      input,
+      textarea {
+        -webkit-tap-highlight-color: transparent;
+      }
+      button {
+        cursor: pointer;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button:focus-visible,
+      a:focus-visible,
+      input:focus-visible,
+      textarea:focus-visible {
+        outline: 2px solid var(--green);
+        outline-offset: 5px;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      button:disabled {
+        cursor: default;
+        opacity: 0.5;
+      }
+      ::selection {
+        background: #dce2cb;
+      }
+      .shell {
+        width: min(1080px, calc(100% - 80px));
+        margin: auto;
+      }
+      header {
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--line);
+      }
+      .brand {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        font: 24px var(--serif);
+        letter-spacing: 3px;
+      }
+      .mark {
+        border: 1px solid #7b8a69;
+        border-radius: 50% 50% 40% 40%;
+        padding: 7px;
+        font-size: 19px;
+        transform: rotate(-5deg);
+      }
+      .brand small {
+        display: block;
+        font:
+          9px Georgia,
+          serif;
+        letter-spacing: 2px;
+        margin-top: 5px;
+      }
+      .back {
+        font-size: 12px;
+        color: var(--green);
+      }
+      main {
+        display: grid;
+        grid-template-columns: 0.8fr 1.2fr;
+        gap: 76px;
+        padding: 70px 0 80px;
+        min-height: calc(100vh - 175px);
+      }
+      .intro {
+        padding-top: 35px;
+        position: relative;
+      }
+      .eyebrow {
+        font:
+          10px Georgia,
+          serif;
+        letter-spacing: 2.5px;
+        color: var(--green);
+        margin: 0 0 25px;
+      }
+      h1 {
+        font: 500 clamp(34px, 4vw, 48px)/1.65 var(--serif);
+        letter-spacing: 4px;
+        margin: 0 0 22px;
+      }
+      .intro p {
+        font-size: 14px;
+        line-height: 2.1;
+        color: var(--muted);
+      }
+      .intro .small-note {
+        font-size: 11px;
+        line-height: 1.9;
+        max-width: 265px;
+        margin-top: 22px;
+      }
+      .landscape {
+        height: 165px;
+        margin: 36px 0 0;
+        border-radius: 100px 100px 8px 8px;
+        background: url("./images/flower-field.jpg") center 60% / cover;
+        max-width: 300px;
+      }
+      .landscape + span {
+        display: block;
+        font: 12px var(--serif);
+        letter-spacing: 2px;
+        color: var(--muted);
+        margin-top: 13px;
+      }
+      .workspace {
+        align-self: start;
+        background: #fffdf8;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        box-shadow: 0 16px 50px #343f3505;
+        overflow: hidden;
+      }
+      .steps {
+        display: flex;
+        gap: 9px;
+        align-items: center;
+        padding: 23px 30px;
+        border-bottom: 1px solid #eae9df;
+        font-size: 11px;
+        color: #8a8e82;
+      }
+      .steps span[aria-current="step"] {
+        color: var(--green);
+        font-weight: bold;
+      }
+      .steps i {
+        height: 1px;
+        background: var(--line);
+        flex: 1;
+      }
+      .panel {
+        padding: 30px;
+        animation: arrive 0.35s ease;
+      }
+      h2 {
+        font: 500 25px/1.6 var(--serif);
+        margin: 0 0 10px;
+        letter-spacing: 1px;
+      }
+      .description {
+        font-size: 13px;
+        line-height: 1.9;
+        color: var(--muted);
+        margin: 0 0 23px;
+      }
+      label {
+        display: block;
+        font-size: 12px;
+        margin-bottom: 10px;
+      }
+      textarea,
+      input[type="text"] {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 15px;
+        background: #fcfbf6;
+        color: var(--ink);
+        line-height: 1.9;
+      }
+      textarea {
+        resize: vertical;
+        min-height: 160px;
+        font-size: 14px;
+      }
+      textarea::placeholder {
+        color: #92958a;
+      }
+      .input-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 10px;
+        color: var(--muted);
+        margin: 9px 0 21px;
+      }
+      .examples {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin: 12px 0 28px;
+      }
+      .chip,
+      .secondary {
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: transparent;
+        color: var(--green);
+        padding: 10px 12px;
+        font-size: 12px;
+      }
+      .chip:hover,
+      .secondary:hover {
+        background: #f1f2e8;
+      }
+      .primary {
+        background: var(--green);
+        color: #fffdf8;
+        border: 1px solid var(--green);
+        border-radius: 7px;
+        padding: 14px 20px;
+        font-size: 13px;
+        letter-spacing: 1px;
+      }
+      .wide {
+        width: 100%;
+      }
+      .primary:hover {
+        background: #40533b;
+      }
+      .primary span {
+        float: right;
+      }
+      .quiet {
+        border: 0;
+        background: none;
+        color: var(--muted);
+        font-size: 12px;
+        padding: 12px 0;
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+      .footnote {
+        font-size: 10px;
+        line-height: 1.8;
+        color: var(--muted);
+        margin: 17px 0 0;
+      }
+      .choices {
+        display: grid;
+        gap: 9px;
+        margin: 16px 0 26px;
+      }
+      .choice {
+        text-align: left;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fffdf8;
+        padding: 15px;
+        color: var(--ink);
+      }
+      .choice strong {
+        font-weight: 500;
+        font-size: 14px;
+        display: block;
+        margin-bottom: 5px;
+      }
+      .choice small {
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .choice[aria-pressed="true"] {
+        background: #edf1e6;
+        border-color: #748865;
+        box-shadow: inset 3px 0 #748865;
+      }
+      .actions {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .goal {
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.9;
+        margin: 0 0 20px;
+        overflow-wrap: anywhere;
+      }
+      .action-card {
+        background: #f0f2e8;
+        border: 1px solid #e0e6d5;
+        border-radius: 10px;
+        padding: 24px;
+        margin: 0 0 20px;
+      }
+      .action-card h3 {
+        font: 500 23px/1.7 var(--serif);
+        margin: 8px 0 12px;
+        overflow-wrap: anywhere;
+      }
+      .action-card p {
+        font-size: 13px;
+        color: #67725d;
+        line-height: 1.9;
+        margin: 0;
+      }
+      .step-label {
+        font-size: 10px;
+        letter-spacing: 1px;
+        color: var(--green);
+      }
+      .duration {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 22px;
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .duration button {
+        border: 1px solid var(--line);
+        border-radius: 5px;
+        background: transparent;
+        padding: 7px 12px;
+        color: var(--green);
+        font-size: 12px;
+      }
+      .duration button[aria-pressed="true"] {
+        background: #e7ecdd;
+        border-color: #a0ad91;
+      }
+      .timer {
+        text-align: center;
+        padding: 16px 0 26px;
+      }
+      .clock {
+        font:
+          400 66px/1.5 Georgia,
+          serif;
+        font-variant-numeric: tabular-nums;
+        color: var(--green);
+        letter-spacing: 3px;
+      }
+      .timer p {
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+      .timer .actions {
+        justify-content: center;
+      }
+      .status {
+        min-height: 19px;
+        font-size: 12px;
+        color: var(--green);
+        line-height: 1.8;
+        margin: 14px 0 0;
+      }
+      .error {
+        color: #9a503c;
+      }
+      .resume {
+        background: #edf1e6;
+        border: 1px solid #d9e0cc;
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 23px;
+      }
+      .resume p {
+        font-size: 12px;
+        line-height: 1.9;
+        margin: 0 0 8px;
+        overflow-wrap: anywhere;
+      }
+      .finished {
+        text-align: center;
+        padding: 20px 0;
+      }
+      .seal {
+        display: grid;
+        place-items: center;
+        width: 62px;
+        height: 62px;
+        border: 1px solid #a8b498;
+        border-radius: 50%;
+        margin: 0 auto 20px;
+        color: var(--green);
+        font-size: 25px;
+      }
+      .completed {
+        padding: 0;
+        list-style: none;
+        margin: 20px 0;
+        text-align: left;
+      }
+      .completed li {
+        font-size: 13px;
+        line-height: 1.9;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--line);
+        overflow-wrap: anywhere;
+      }
+      .completed li::before {
+        content: "✓";
+        margin-right: 10px;
+        color: var(--green);
+      }
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 23px 0;
+        display: flex;
+        justify-content: space-between;
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .edit {
+        margin: 14px 0;
+      }
+      .edit input {
+        margin-bottom: 12px;
+      }
+      .skip {
+        position: absolute;
+        left: 15px;
+        top: -100px;
+      }
+      .skip:focus {
+        top: 10px;
+        background: var(--paper);
+        padding: 10px;
+        z-index: 1;
+      }
+      @keyframes arrive {
+        from {
+          opacity: 0;
+          transform: translateY(7px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @media (max-width: 760px) {
+        .shell {
+          width: calc(100% - 40px);
+        }
+        header {
+          height: 82px;
+        }
+        main {
+          grid-template-columns: 1fr;
+          gap: 27px;
+          padding: 35px 0 45px;
+        }
+        .intro {
+          padding: 0;
+        }
+        .eyebrow {
+          margin-bottom: 14px;
+        }
+        h1 {
+          font-size: 33px;
+          line-height: 1.5;
+          margin-bottom: 12px;
+        }
+        h1 br {
+          display: none;
+        }
+        .intro p {
+          font-size: 13px;
+          margin-bottom: 0;
+        }
+        .landscape,
+        .landscape + span,
+        .intro .small-note {
+          display: none;
+        }
+        .panel {
+          padding: 24px;
+        }
+        .steps {
+          padding: 20px 24px;
+        }
+        footer {
+          gap: 15px;
+          line-height: 1.8;
+        }
+        .action-card {
+          padding: 20px;
+        }
+        .clock {
+          font-size: 58px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+        }
+      }
+      .extras {
+        margin: 0 0 23px;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 15px;
+      }
+      summary {
+        cursor: pointer;
+        color: var(--green);
+        font-size: 12px;
+        padding: 8px 0;
+      }
+      summary:focus-visible {
+        outline: 2px solid var(--green);
+        outline-offset: 4px;
+      }
+      .plan-list {
+        padding-left: 22px;
+        font-size: 12px;
+        line-height: 1.9;
+      }
+      .plan-list li {
+        margin-bottom: 12px;
+        overflow-wrap: anywhere;
+      }
+      .plan-list button {
+        margin-left: 10px;
+      }
+      #stuck-help textarea {
+        min-height: 85px;
+      }
+      #outcome-form {
+        margin-top: 18px;
+      }
+      #outcome-form button {
+        margin-top: 12px;
+      }
+      #outcome-form input {
+        background: #fffdf8;
+      }
+      #step-label {
+        display: block;
+        overflow-wrap: anywhere;
+        line-height: 1.9;
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#main">跳到正文</a>
+    <header class="shell">
+      <a class="brand" href="./"
+        ><span class="mark" aria-hidden="true">屿</span
+        ><span>心屿<small lang="en">HEART ISLE</small></span></a
+      ><a class="back" href="./">回到心屿 ↗</a>
+    </header>
+    <main id="main" class="shell">
+      <aside class="intro">
+        <p class="eyebrow" lang="en">ONE SMALL BEGINNING</p>
+        <h1>先迈出，<br />很小的一步。</h1>
+        <p>与其先拯救世界，不如先开始五分钟。</p>
+        <div class="landscape" role="img" aria-label="阳光下的花海"></div>
+        <span>按自己的节奏，慢慢来。</span>
+        <p class="small-note">
+          可以从一句没整理好的话开始。<br />今天愿意做多少，就先做多少。
+        </p>
+      </aside>
+      <section class="workspace" aria-label="陪我开始">
+        <nav class="steps" aria-label="当前进度">
+          <span data-stage="input" aria-current="step">说说这件事</span><i></i
+          ><span data-stage="action">开始一小步</span>
+        </nav>
+        <section class="panel" id="input-panel" aria-labelledby="input-title">
+          <h2 id="input-title" tabindex="-1">今天，想从什么开始？</h2>
+          <p class="description">
+            要做的大事、挂在心里的小事，都可以写在这里。
+          </p>
+          <div class="resume" id="resume" hidden>
+            <p id="resume-text"></p>
+            <div class="actions">
+              <button class="secondary" id="resume-button">
+                接着上次的小步</button
+              ><button class="quiet" id="discard">清除上次进度</button>
+            </div>
+          </div>
+          <form id="task-form">
+            <details class="extras">
+              <summary>说说现在的状态 · 可选</summary>
+              <div class="choices" aria-label="现在的状态">
+                <button
+                  type="button"
+                  class="choice"
+                  data-mood="energy"
+                  aria-pressed="false"
+                >
+                  没什么力气，希望轻一点
+                </button>
+                <button
+                  type="button"
+                  class="choice"
+                  data-mood="overwhelmed"
+                  aria-pressed="false"
+                >
+                  脑子很乱，事情挤在一起
+                </button>
+                <button
+                  type="button"
+                  class="choice"
+                  data-mood="fear"
+                  aria-pressed="false"
+                >
+                  有件事想做，但一直启动不了
+                </button>
+                <button
+                  type="button"
+                  class="choice"
+                  data-mood="ready"
+                  aria-pressed="false"
+                >
+                  可以做一点，帮我找个起点
+                </button>
+              </div>
+            </details>
+            <label for="task">我想推进的事情</label
+            ><textarea
+              id="task"
+              maxlength="1000"
+              required
+              placeholder="比如，今天要写方案，但一想到就头大。或者，只是感觉有好多事情，想先理一理……"
+            ></textarea>
+            <div class="input-meta">
+              <span>写一句话也可以</span><span id="count">0 / 1000</span>
+            </div>
+            <div class="examples">
+              <button
+                class="chip"
+                type="button"
+                data-example="今天要写方案，一想到就头大。"
+              >
+                写方案</button
+              ><button
+                class="chip"
+                type="button"
+                data-example="房间很乱，不知道从哪里开始收拾。"
+              >
+                收拾房间</button
+              ><button
+                class="chip"
+                type="button"
+                data-example="感觉有好多事该做，但还没想清楚要做什么。"
+              >
+                还没想清楚
+              </button>
+            </div>
+            <button class="primary wide" type="submit">
+              帮我找一个开始 <span aria-hidden="true">↗</span>
+            </button>
+            <p class="status error" id="input-error" role="status"></p>
+          </form>
+          <p class="footnote" id="input-storage">
+            进度保存在当前浏览器，回来可以接着做。
+          </p>
+        </section>
+        <section
+          class="panel"
+          id="action-panel"
+          aria-labelledby="action-title"
+          hidden
+        >
+          <h2 id="action-title" tabindex="-1">先做眼前这一小步。</h2>
+          <p class="goal" id="goal-summary"></p>
+          <div class="action-card">
+            <span class="step-label" id="step-label"></span>
+            <h3 id="step-title"></h3>
+            <p id="step-detail"></p>
+            <form id="outcome-form" hidden>
+              <label for="outcome">写下一件此刻想到的事</label
+              ><input
+                id="outcome"
+                type="text"
+                maxlength="160"
+                placeholder="比如，回复那封还没回的邮件"
+              /><button class="secondary" type="submit">就从这件事开始</button>
+              <p class="status" id="outcome-error" role="status"></p>
+            </form>
+          </div>
+          <div class="timer" id="timer-panel" hidden>
+            <div
+              class="clock"
+              id="clock"
+              role="timer"
+              aria-label="已经投入的时间"
+            >
+              00:00
+            </div>
+            <p>已经为这件事留了一点时间，随时可以停下。</p>
+          </div>
+          <div class="actions">
+            <button class="primary" id="start">开始这一小步 ↗</button
+            ><button class="primary" id="done" hidden>这步做好了</button
+            ><button class="secondary" id="stuck">我卡住了</button>
+          </div>
+          <p
+            class="status"
+            id="action-status"
+            role="status"
+            aria-live="polite"
+          ></p>
+          <div id="stuck-help" hidden>
+            <label for="difficulty">也可以补一句，具体卡在哪里</label
+            ><textarea
+              id="difficulty"
+              maxlength="500"
+              placeholder="比如，找不到文件；不知道第一句怎么写……"
+            ></textarea
+            ><button class="quiet" id="apply-difficulty">
+              按这个困难再拆一下
+            </button>
+          </div>
+          <details class="extras" id="extras">
+            <summary>调整步骤 / 看看完整拆解</summary>
+            <div class="actions">
+              <button class="quiet" id="edit">自己改这一步</button
+              ><button class="quiet" id="skip-step">这步已经做过了</button
+              ><button class="quiet" id="pause" hidden>暂停计时</button>
+            </div>
+            <form class="edit" id="edit-form" hidden>
+              <label for="custom-step">换成一个你愿意做的动作</label
+              ><input id="custom-step" type="text" maxlength="160" required />
+              <div class="actions">
+                <button class="secondary" type="submit">用这一步</button
+                ><button class="quiet" id="cancel-edit" type="button">
+                  取消
+                </button>
+              </div>
+            </form>
+            <ol class="plan-list" id="plan-list"></ol>
+            <ul class="completed" id="completed-list"></ul>
+          </details>
+          <button class="quiet" id="save-exit">今天先到这里</button>
+          <p class="footnote" id="storage-note"></p>
+        </section>
+        <section
+          class="panel"
+          id="finish-panel"
+          aria-labelledby="finish-title"
+          hidden
+        >
+          <div class="finished">
+            <div class="seal" aria-hidden="true">✓</div>
+            <h2 id="finish-title" tabindex="-1">这一轮，已经往前走了一点。</h2>
+            <p class="description">做过的每一个小步，都记在这里。</p>
+            <ul class="completed" id="finish-list"></ul>
+            <button class="primary" id="new-task">开始另一件事</button>
+            <p class="footnote" id="finish-storage"></p>
+          </div>
+        </section>
+        <noscript
+          ><p class="panel">
+            请启用 JavaScript 来使用任务拆解、计时和进度保存功能。
+          </p></noscript
+        >
+      </section>
+    </main>
+    <footer class="shell">
+      <span>心屿 · 陪我开始</span><span>给每一个小小的开始，留一点空间。</span>
+    </footer>
+    <script src="./start.js" defer></script>
+  </body>
+</html>
